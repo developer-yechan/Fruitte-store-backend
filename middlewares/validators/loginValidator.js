@@ -2,15 +2,8 @@ const { body } = require("express-validator");
 const index = require("./index");
 const errorCodes = require("../../codes/errorCodes");
 
-function userValidator() {
+function loginValidator() {
   return [
-    body("name")
-      .trim()
-      .notEmpty()
-      .bail()
-      .withMessage(errorCodes.required)
-      .isLength({ max: 50 })
-      .withMessage(errorCodes.nameFormat),
     body("email")
       .trim()
       .notEmpty()
@@ -28,16 +21,8 @@ function userValidator() {
       .withMessage(errorCodes.required)
       .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/)
       .withMessage(errorCodes.pwdFormat),
-    body("tier").trim().notEmpty().withMessage(errorCodes.required),
-    body("phoneNumber")
-      .trim()
-      .notEmpty()
-      .bail()
-      .withMessage(errorCodes.required)
-      .isMobilePhone()
-      .withMessage(errorCodes.wrongFormat),
     index,
   ];
 }
 
-module.exports = userValidator;
+module.exports = loginValidator;
