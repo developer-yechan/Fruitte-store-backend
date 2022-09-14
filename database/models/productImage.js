@@ -19,6 +19,11 @@ module.exports = class ProductImage extends Sequelize.Model {
           allowNull: false,
           unique: false,
         },
+        thumbnail: {
+          type: Sequelize.BOOLEAN,
+          allowNull: false,
+          defaultValue: false,
+        },
       },
       {
         sequelize,

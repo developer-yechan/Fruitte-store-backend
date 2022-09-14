@@ -7,8 +7,33 @@ const createProduct = async (data) => {
   return product;
 };
 
+const findProducts = async () => {
+  const product = await Product.findAll({
+    include: [
+      {
+        model: ProductImages,
+        attributes: ["image"],
+        where: {
+          thumbnail: true,
+        },
+        required: false,
+      },
+    ],
+    attributes: ["name", "price"],
+  });
+  return product;
+};
+
 const findProductByName = async (name) => {
   const product = await Product.findOne({
+    include: [
+      {
+        model: ProductImages,
+        attributes: ["image"],
+        required: false,
+      },
+    ],
+    attributes: { exclude: ["quantity", "createdAt", "updatedAt"] },
     where: {
       name: {
         [Op.like]: `%${name}%`,
