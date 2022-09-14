@@ -47,7 +47,7 @@ const updateProduct = async (req, res, next) => {
       productId
     );
     if (!isExistingProduct) {
-      return res.status(400).json(errorCodes.notExistingProduct);
+      throw new Error(errorCodes.notExistingProduct);
     }
     const result = await productRepository.updateProduct(
       await productUpdateDto(req.body),
@@ -71,7 +71,7 @@ const deleteProduct = async (req, res, next) => {
       productId
     );
     if (!isExistingProduct) {
-      return res.status(400).json(errorCodes.notExistingProduct);
+      throw new Error(errorCodes.notExistingProduct);
     }
     const result = await productRepository.deleteProduct(productId);
     // 삭제 되지 않은 경우

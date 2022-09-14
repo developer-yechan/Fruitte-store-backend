@@ -8,5 +8,6 @@ router.post("/", loginRequired, orderService.createOrder);
 router.get("/:id", loginRequired, orderService.getOrder);
 router.get("/", loginRequired, orderService.getOrders);
 router.patch("/:id", loginRequired, orderService.updateOrder);
+router.delete("/:id", loginRequired, orderService.deleteOrder);
 
 module.exports = router;

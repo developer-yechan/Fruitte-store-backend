@@ -15,4 +15,8 @@ module.exports = {
   wrongFormat: "형식을 맞춰주세요.",
   notValidToken: "토큰의 유효 기간이 지났습니다.",
   existProduct: "이미 등록된 상품입니다.",
+  notExistingOrder: "이미 취소된 주문입니다.",
+  notValidDeleteRequest: "결제 후에는 주문 취소 시 관리자에게 문의 해주세요",
+  notValidUpdateRequest: "결제 후에는 주문 수정 시 관리자에게 문의 해주세요",
+  orderStatus: "결제 상태는 관리자만 수정할 수 있습니다.",
 };

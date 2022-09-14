@@ -39,17 +39,17 @@ const updateOrder = async (req, res, next) => {
     // 이미 삭제된 상품인지 확인
     const isExistingOrder = await orderRepository.findOrderByOrderId(orderId);
     if (!isExistingOrder) {
-      return res.status(400).json(errorCodes.notExistingOrder);
+      throw new Error(errorCodes.notExistingOrder);
     }
     if (req.user.tier === "user") {
       if (isExistingOrder.status !== "결제 대기") {
         return res.status(401).json({
-          message: "결제 후에는 주문 수정 시 관리자에게 문의 해주세요",
+          message: errorCodes.notValidUpdateRequest,
         });
       }
       if (req.body.status !== "결제 대기") {
         return res.status(401).json({
-          message: "결제 상태는 관리자만 수정할 수 있습니다.",
+          message: errorCodes.orderStatus,
         });
       }
     }
@@ -68,25 +68,30 @@ const updateOrder = async (req, res, next) => {
   }
 };
 
-const deleteProduct = async (req, res, next) => {
+const deleteOrder = async (req, res, next) => {
   try {
-    const productId = req.params.id;
+    const orderId = req.params.id;
     // 이미 삭제된 상품인지 확인
-    const isExistingProduct = await productRepository.findProductById(
-      productId
-    );
-    if (!isExistingProduct) {
-      return res.status(400).json(errorCodes.notExistingProduct);
+    const isExistingOrder = await orderRepository.findOrderByOrderId(orderId);
+    if (!isExistingOrder) {
+      throw new Error(errorCodes.notExistingOrder);
     }
-    const result = await productRepository.deleteProduct(productId);
+    if (req.user.tier === "user") {
+      if (isExistingOrder.status !== "결제 대기") {
+        return res.status(401).json({
+          message: errorCodes.notValidDeleteRequest,
+        });
+      }
+    }
+    const result = await orderRepository.deleteOrder(orderId);
     // 삭제 되지 않은 경우
     if (result[0] === 0) {
-      throw new Error("상품이 삭제 되지 않았습니다. 다시 시도해주세요");
+      throw new Error("주문이 취소 되지 않았습니다. 다시 시도해주세요");
     }
-    return res.status(200).json({ message: "해당 상품을 삭제 했습니다." });
+    return res.status(200).json({ message: "해당 주문을 취소 했습니다." });
   } catch (err) {
     next(err);
   }
 };
 
-module.exports = { createOrder, getOrder, getOrders, updateOrder };
+module.exports = { createOrder, getOrder, getOrders, updateOrder, deleteOrder };
