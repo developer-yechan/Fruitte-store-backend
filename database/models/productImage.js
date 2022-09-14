@@ -10,14 +10,15 @@ module.exports = class ProductImage extends Sequelize.Model {
           primaryKey: true,
           allowNull: false,
         },
-        productId: {
-          type: Sequelize.UUID,
-          allowNull: false,
-        },
         image: {
           type: Sequelize.STRING(200),
           allowNull: false,
           unique: false,
+        },
+        thumbnail: {
+          type: Sequelize.BOOLEAN,
+          allowNull: false,
+          defaultValue: false,
         },
       },
       {
@@ -31,5 +32,8 @@ module.exports = class ProductImage extends Sequelize.Model {
         collate: "utf8_general_ci",
       }
     );
+  }
+  static associate(db) {
+    db.ProductImage.belongsTo(db.Product);
   }
 };

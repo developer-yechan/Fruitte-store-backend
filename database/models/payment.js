@@ -4,8 +4,11 @@ module.exports = class Payment extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        userId: {
-          type: Sequelize.INTEGER, //유저아이디
+        id: {
+          type: Sequelize.UUID,
+          defaultValue: Sequelize.UUIDV4,
+          primaryKey: true,
+          allowNull: false,
         },
         approved_date: {
           type: Sequelize.DATE, //결제승인시점
@@ -22,9 +25,6 @@ module.exports = class Payment extends Sequelize.Model {
         status: {
           type: Sequelize.STRING, //결제완료,결제대기,환불완료
         },
-        order_id: {
-          type: Sequelize.STRING, //주문번호
-        },
       },
       {
         sequelize,
@@ -37,5 +37,9 @@ module.exports = class Payment extends Sequelize.Model {
         collate: "utf8_general_ci",
       }
     );
+  }
+  static associate(db) {
+    db.Payment.belongsTo(db.Order);
+    db.User.belongsTo(db.User);
   }
 };

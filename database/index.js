@@ -17,11 +17,11 @@ const sequelize = new Sequelize(
 );
 
 db.sequelize = sequelize;
-db.user = user;
-db.product = product;
-db.productImage = productImage;
-db.order = order;
-db.payment = payment;
+db.User = user;
+db.Product = product;
+db.ProductImage = productImage;
+db.Order = order;
+db.Payment = payment;
 
 user.init(sequelize);
 product.init(sequelize);
@@ -29,4 +29,9 @@ productImage.init(sequelize);
 order.init(sequelize);
 payment.init(sequelize);
 
+user.associate(db);
+product.associate(db);
+productImage.associate(db);
+order.associate(db);
+payment.associate(db);
 module.exports = db;

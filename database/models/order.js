@@ -10,14 +10,6 @@ module.exports = class Order extends Sequelize.Model {
           primaryKey: true,
           allowNull: false,
         },
-        userId: {
-          type: Sequelize.UUID,
-          allowNull: false,
-        },
-        productId: {
-          type: Sequelize.UUID,
-          allowNull: false,
-        },
         address: {
           type: Sequelize.STRING(100),
           allowNull: false,
@@ -53,5 +45,7 @@ module.exports = class Order extends Sequelize.Model {
 
   static associate(db) {
     db.Order.hasMany(db.Payment);
+    db.Order.belongsTo(db.User);
+    db.Order.belongsTo(db.Product);
   }
 };
