@@ -61,4 +61,25 @@ const findOrderByOrderId = async (orderId) => {
   });
   return order;
 };
-module.exports = { createOrder, findOrderByOrderId, findOrdersByUserId };
+
+const updateOrder = async (data, id) => {
+  const result = await Order.update(data, {
+    where: { id },
+  });
+  return result;
+};
+
+const deleteOrder = async (id) => {
+  const result = await Order.destroy({
+    where: { id },
+  });
+  return result;
+};
+
+module.exports = {
+  createOrder,
+  findOrderByOrderId,
+  findOrdersByUserId,
+  updateOrder,
+  deleteOrder,
+};

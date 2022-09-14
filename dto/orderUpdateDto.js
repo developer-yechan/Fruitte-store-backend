@@ -4,7 +4,6 @@ module.exports = (body) => {
     recipent: body.recipent,
     recipentCall: body.recipentCall,
     quantity: body.quantity,
-    UserId: body.userId,
-    ProductId: body.ProductId,
+    status: body.status,
   };
 };
