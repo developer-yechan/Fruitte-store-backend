@@ -15,10 +15,15 @@ module.exports = class Order extends Sequelize.Model {
           allowNull: false,
           unique: false,
         },
-        content: {
-          type: Sequelize.STRING(200),
+        recipent: {
+          type: Sequelize.STRING(50),
           allowNull: false,
           unique: false,
+        },
+        recipentCall: {
+          type: Sequelize.STRING(25),
+          allowNull: false,
+          defaultValue: false,
         },
         quantity: {
           type: Sequelize.INTEGER,
@@ -26,8 +31,9 @@ module.exports = class Order extends Sequelize.Model {
           defaultValue: 1,
         },
         status: {
-          type: Sequelize.STRING(25),
+          type: Sequelize.ENUM("결제 대기", "결제 완료", "환불 완료"),
           allowNull: false,
+          defaultValue: "결제 대기",
         },
       },
       {
