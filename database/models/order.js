@@ -15,19 +15,20 @@ module.exports = class Order extends Sequelize.Model {
           allowNull: false,
           unique: false,
         },
-        content: {
-          type: Sequelize.STRING(200),
+        recipent: {
+          type: Sequelize.STRING(50),
           allowNull: false,
           unique: false,
+        },
+        recipentCall: {
+          type: Sequelize.STRING(25),
+          allowNull: false,
+          defaultValue: false,
         },
         quantity: {
           type: Sequelize.INTEGER,
           allowNull: false,
           defaultValue: 1,
-        },
-        status: {
-          type: Sequelize.STRING(25),
-          allowNull: false,
         },
       },
       {
