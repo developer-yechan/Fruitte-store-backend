@@ -1,4 +1,5 @@
 const Product = require("../database/models/product");
+const ProductImage = require("../database/models/productImage");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
@@ -8,10 +9,10 @@ const createProduct = async (data) => {
 };
 
 const findProducts = async () => {
-  const product = await Product.findAll({
+  const products = await Product.findAll({
     include: [
       {
-        model: ProductImages,
+        model: ProductImage,
         attributes: ["image"],
         where: {
           thumbnail: true,
@@ -21,23 +22,34 @@ const findProducts = async () => {
     ],
     attributes: ["name", "price"],
   });
-  return product;
+  return products;
 };
 
 const findProductByName = async (name) => {
   const product = await Product.findOne({
-    include: [
-      {
-        model: ProductImages,
-        attributes: ["image"],
-        required: false,
-      },
-    ],
-    attributes: { exclude: ["quantity", "createdAt", "updatedAt"] },
     where: {
       name: {
         [Op.like]: `%${name}%`,
       },
+    },
+  });
+  return product;
+};
+
+const findProductById = async (id) => {
+  const product = await Product.findOne({
+    include: [
+      {
+        model: ProductImage,
+        attributes: ["image"],
+        required: false,
+      },
+    ],
+    attributes: {
+      exclude: ["quantity", "createdAt", "updatedAt", "deletedAt"],
+    },
+    where: {
+      id,
     },
   });
   return product;
@@ -58,6 +70,8 @@ const deleteProduct = async (id) => {
 module.exports = {
   createProduct,
   findProductByName,
+  findProductById,
+  findProducts,
   updateProduct,
   deleteProduct,
 };

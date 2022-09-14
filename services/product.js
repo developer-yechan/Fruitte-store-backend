@@ -22,6 +22,9 @@ const createProduct = async (req, res, next) => {
 
 const getProduct = async (req, res, next) => {
   try {
+    const id = req.params.id;
+    const product = await productRepository.findProductById(id);
+    res.status(200).json(product);
   } catch (err) {
     next(err);
   }
@@ -29,6 +32,8 @@ const getProduct = async (req, res, next) => {
 
 const getProducts = async (req, res, next) => {
   try {
+    const products = await productRepository.findProducts();
+    res.status(200).json(products);
   } catch (err) {
     next(err);
   }
