@@ -14,4 +14,23 @@ const createOrder = async (req, res, next) => {
   }
 };
 
-module.exports = { createOrder };
+const getOrder = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const order = await orderRepository.findOrderByOrderId(id);
+    res.status(200).json(order);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getOrders = async (req, res, next) => {
+  try {
+    const orders = await orderRepository.findOrdersByUserId(req.user.id);
+    res.status(200).json(orders);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { createOrder, getOrder, getOrders };

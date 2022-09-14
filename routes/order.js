@@ -5,5 +5,7 @@ const router = express.Router();
 const orderService = require("../services/order");
 
 router.post("/", loginRequired, orderService.createOrder);
+router.get("/:id", loginRequired, orderService.getOrder);
+router.get("/", loginRequired, orderService.getOrders);
 
 module.exports = router;
