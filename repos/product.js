@@ -55,16 +55,18 @@ const findProductById = async (id) => {
   return product;
 };
 
-const updateProduct = async (data) => {
-  await Product.update(data.data, {
-    where: data.userId,
+const updateProduct = async (data, id) => {
+  const result = await Product.update(data, {
+    where: { id },
   });
+  return result;
 };
 
 const deleteProduct = async (id) => {
-  await Product.destroy({
+  const result = await Product.destroy({
     where: { id },
   });
+  return result;
 };
 
 module.exports = {

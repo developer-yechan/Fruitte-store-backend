@@ -1,6 +1,5 @@
 module.exports = async (body) => {
   return {
-    id: body.id,
     name: body.name,
     price: body.price,
     content: body.content,

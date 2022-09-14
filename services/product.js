@@ -41,6 +41,23 @@ const getProducts = async (req, res, next) => {
 
 const updateProduct = async (req, res, next) => {
   try {
+    const productId = req.params.id;
+    // 이미 삭제된 상품인지 확인
+    const isExistingProduct = await productRepository.findProductById(
+      productId
+    );
+    if (!isExistingProduct) {
+      return res.status(400).json(errorCodes.notExistingProduct);
+    }
+    const result = await productRepository.updateProduct(
+      await productUpdateDto(req.body),
+      productId
+    );
+    // 수정되지 않은 경우
+    if (result[0] === 0) {
+      throw new Error("상품 정보가 수정되지 않았습니다. 다시 시도해주세요");
+    }
+    return res.status(200).json({ message: "해당 상품 정보를 수정 했습니다." });
   } catch (err) {
     next(err);
   }
@@ -48,6 +65,20 @@ const updateProduct = async (req, res, next) => {
 
 const deleteProduct = async (req, res, next) => {
   try {
+    const productId = req.params.id;
+    // 이미 삭제된 상품인지 확인
+    const isExistingProduct = await productRepository.findProductById(
+      productId
+    );
+    if (!isExistingProduct) {
+      return res.status(400).json(errorCodes.notExistingProduct);
+    }
+    const result = await productRepository.deleteProduct(productId);
+    // 삭제 되지 않은 경우
+    if (result[0] === 0) {
+      throw new Error("상품이 삭제 되지 않았습니다. 다시 시도해주세요");
+    }
+    return res.status(200).json({ message: "해당 상품을 삭제 했습니다." });
   } catch (err) {
     next(err);
   }
