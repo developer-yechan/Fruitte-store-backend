@@ -7,8 +7,8 @@ const errorCodes = require("../codes/errorCodes");
 
 const createUser = async (req, res, next) => {
   try {
-    const isExistingUSer = await userRepository.findUserByEmail(req.body.email);
-    if (isExistingUSer) {
+    const isExistingUser = await userRepository.findUserByEmail(req.body.email);
+    if (isExistingUser) {
       throw new Error(errorCodes.existEmail);
     }
     const newUser = await userRepository.createUser(

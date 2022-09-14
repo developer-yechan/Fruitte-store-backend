@@ -1,5 +1,4 @@
 const Product = require("../database/models/product");
-const errorCodes = require("../codes/errorCodes");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 

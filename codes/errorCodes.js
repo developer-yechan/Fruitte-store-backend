@@ -14,4 +14,5 @@ module.exports = {
   emailLength: "이메일은 최대 100자입니다.",
   wrongFormat: "형식을 맞춰주세요.",
   notValidToken: "토큰의 유효 기간이 지났습니다.",
+  existProduct: "이미 등록된 상품입니다.",
 };
