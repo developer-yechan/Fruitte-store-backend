@@ -25,6 +25,9 @@ module.exports = class Payment extends Sequelize.Model {
         status: {
           type: Sequelize.STRING, //결제완료,결제대기,환불완료
         },
+        tid: {
+          type: Sequelize.STRING, //카카오페이에서 필요
+        },
       },
       {
         sequelize,
