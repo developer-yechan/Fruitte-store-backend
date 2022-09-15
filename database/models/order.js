@@ -31,9 +31,9 @@ module.exports = class Order extends Sequelize.Model {
           defaultValue: 1,
         },
         status: {
-          type: Sequelize.ENUM("결제 대기", "결제 완료", "환불 완료"),
+          type: Sequelize.ENUM("주문 대기", "주문 완료", "주문 취소"),
           allowNull: false,
-          defaultValue: "결제 대기",
+          defaultValue: "주문 대기",
         },
       },
       {

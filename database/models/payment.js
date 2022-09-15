@@ -27,6 +27,7 @@ module.exports = class Payment extends Sequelize.Model {
         },
         tid: {
           type: Sequelize.STRING, //카카오페이에서 필요
+          unique: true,
         },
       },
       {

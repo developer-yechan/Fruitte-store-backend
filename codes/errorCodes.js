@@ -19,4 +19,8 @@ module.exports = {
   notValidDeleteRequest: "결제 후에는 주문 취소 시 관리자에게 문의 해주세요",
   notValidUpdateRequest: "결제 후에는 주문 수정 시 관리자에게 문의 해주세요",
   orderStatus: "결제 상태는 관리자만 수정할 수 있습니다.",
+  paymentCanceled: "결제가 취소 되었습니다.",
+  paymentFailed: "결제가 실패했습니다.",
+  paymentNotEdited: "결제 정보가 수정되지 않았습니다. 다시 시도해주세요",
+  orderNotEdited: "주문 정보가 수정되지 않았습니다. 다시 시도해주세요",
 };
