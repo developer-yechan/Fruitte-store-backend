@@ -6,6 +6,7 @@ const Order = require("../database/models/order");
 const errorCodes = require("../codes/errorCodes");
 const adminKey = process.env.ADMIN_KEY;
 const cid = process.env.CID;
+const paymentRepo = require("../repos/payment");
 
 const kakaopayRequest = async (req, res, next) => {
   try {
@@ -57,7 +58,6 @@ const kakaopayRequest = async (req, res, next) => {
       tid,
     };
     Payment.create(paymentDto);
-    console.log(response.data.next_redirect_pc_url);
     return res
       .status(200)
       .json({ redirect_url: response.data.next_redirect_pc_url });
@@ -65,7 +65,7 @@ const kakaopayRequest = async (req, res, next) => {
     next(err);
   }
 };
-const kakaopaySuccess = async (req, res, next) => {
+const paymentRequestSuccess = async (req, res, next) => {
   try {
     const { pg_token, partner_order_id } = req.query;
     //결제 승인 url
@@ -125,7 +125,7 @@ const kakaopaySuccess = async (req, res, next) => {
   }
 };
 
-async function kakaopayCancel(req, res, next) {
+const paymentRequestCanceled = async (req, res, next) => {
   try {
     const { partner_order_id } = req.query;
     const paymentUpdate = await Payment.update(
@@ -145,12 +145,12 @@ async function kakaopayCancel(req, res, next) {
   } catch (err) {
     next(err);
   }
-}
+};
 
-async function kakaopayFail(req, res) {
+const paymentRequestFailed = async (req, res, next) => {
   try {
     const { partner_order_id } = req.query;
-    const paymentUpdate = await PaymentLog.update(
+    const paymentUpdate = await Payment.update(
       { status: "결제실패" },
       {
         where: {
@@ -166,11 +166,54 @@ async function kakaopayFail(req, res) {
   } catch (err) {
     next(err);
   }
-}
+};
+
+const paymentCancelRequest = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const paymentHistory = await paymentRepo.findPaymentHistoryById(id);
+    const tid = paymentHistory.tid;
+    const cancel_amount = paymentHistory.amount;
+    const cancel_tax_free_amount = 0;
+    const url_for_ready = "https://kapi.kakao.com/v1/payment/cancel";
+    const response = await axios.post(
+      url_for_ready,
+      {},
+      {
+        params: {
+          cid,
+          tid,
+          cancel_amount,
+          cancel_tax_free_amount,
+        },
+        headers: {
+          Authorization: "KakaoAK " + adminKey,
+          "Content-Type": "application/x-www-form-urlencoded;charset-utf-8",
+        },
+      }
+    );
+    const paymentUpdate = await Payment.update(
+      { status: "결제취소" },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+    // 결제 내역이 수정되지 않은 경우
+    if (paymentUpdate[0] === 0) {
+      throw new Error(errorCodes.paymentNotEdited);
+    }
+    return res.status(200).json({ message: "결제 취소 완료" });
+  } catch (err) {
+    next(err);
+  }
+};
 
 module.exports = {
   kakaopayRequest,
-  kakaopaySuccess,
-  kakaopayCancel,
-  kakaopayFail,
+  paymentRequestSuccess,
+  paymentRequestCanceled,
+  paymentRequestFailed,
+  paymentCancelRequest,
 };

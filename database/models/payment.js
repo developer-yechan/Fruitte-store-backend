@@ -23,7 +23,7 @@ module.exports = class Payment extends Sequelize.Model {
           type: Sequelize.INTEGER, //금액
         },
         status: {
-          type: Sequelize.STRING, //결제완료,결제대기,환불완료
+          type: Sequelize.STRING, //결제완료,결제대기,결제취소
         },
         tid: {
           type: Sequelize.STRING, //카카오페이에서 필요

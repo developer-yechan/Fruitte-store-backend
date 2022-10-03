@@ -4,8 +4,13 @@ const router = express.Router();
 const kakaoPayService = require("../services/kakaoPay");
 
 router.get("/request", loginRequired, kakaoPayService.kakaopayRequest);
-router.get("/success", kakaoPayService.kakaopaySuccess);
-router.get("/fail", kakaoPayService.kakaopayFail);
-router.get("/cancel", kakaoPayService.kakaopayCancel);
+router.get("/success", kakaoPayService.paymentRequestSuccess);
+router.get("/fail", kakaoPayService.paymentRequestFailed);
+router.get("/cancel", kakaoPayService.paymentRequestCanceled);
+router.patch(
+  "/cancel/:id",
+  loginRequired,
+  kakaoPayService.paymentCancelRequest
+);
 
 module.exports = router;
