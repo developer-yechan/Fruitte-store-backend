@@ -42,12 +42,12 @@ const updateOrder = async (req, res, next) => {
       throw new Error(errorCodes.notExistingOrder);
     }
     if (req.user.tier === "user") {
-      if (isExistingOrder.status !== "결제 대기") {
+      if (isExistingOrder.status !== "주문 대기") {
         return res.status(401).json({
           message: errorCodes.notValidUpdateRequest,
         });
       }
-      if (req.body.status !== "결제 대기") {
+      if (req.body.status !== "주문 대기") {
         return res.status(401).json({
           message: errorCodes.orderStatus,
         });
@@ -77,7 +77,7 @@ const deleteOrder = async (req, res, next) => {
       throw new Error(errorCodes.notExistingOrder);
     }
     if (req.user.tier === "user") {
-      if (isExistingOrder.status !== "결제 대기") {
+      if (isExistingOrder.status !== "주문 대기") {
         return res.status(401).json({
           message: errorCodes.notValidDeleteRequest,
         });

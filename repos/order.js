@@ -4,6 +4,7 @@ const Order = require("../database/models/order");
 const ProductImage = require("../database/models/productImage");
 
 const Sequelize = require("sequelize");
+const Payment = require("../database/models/payment");
 const Op = Sequelize.Op;
 
 const createOrder = async (data) => {
@@ -50,6 +51,11 @@ const findOrderByOrderId = async (orderId) => {
           attributes: ["image"],
           required: false,
         },
+      },
+      {
+        model: Payment,
+        attributes: ["approved_date", "content", "method", "amount", "status"],
+        required: false,
       },
     ],
     attributes: {
