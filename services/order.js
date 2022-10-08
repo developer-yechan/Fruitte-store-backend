@@ -1,7 +1,7 @@
 const orderRepository = require("../repos/order");
 const errorCodes = require("../codes/errorCodes");
-const orderCreateDto = require("../dto/orderCreateDto");
-const orderUpdateDto = require("../dto/orderUpdateDto");
+const orderCreateDto = require("../dao/orderCreateDao");
+const orderUpdateDto = require("../dao/orderUpdateDao");
 
 const createOrder = async (req, res, next) => {
   try {

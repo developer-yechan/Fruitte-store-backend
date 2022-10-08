@@ -17,6 +17,9 @@ const findUserByEmail = async (email) => {
 
 const findUserById = async (id) => {
   const user = await User.findOne({
+    attributes: {
+      exclude: ["deletedAt", "password"],
+    },
     where: {
       id,
     },

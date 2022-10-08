@@ -1,7 +1,7 @@
 const productRepository = require("../repos/product");
 const errorCodes = require("../codes/errorCodes");
-const productCreateDto = require("../dto/productCreateDto");
-const productUpdateDto = require("../dto/productUpdateDto");
+const productCreateDto = require("../dao/productCreateDao");
+const productUpdateDto = require("../dao/productUpdateDao");
 
 const createProduct = async (req, res, next) => {
   try {

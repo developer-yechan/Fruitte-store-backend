@@ -20,7 +20,7 @@ const findProducts = async () => {
         required: false,
       },
     ],
-    attributes: ["name", "price"],
+    attributes: ["id", "name", "price"],
   });
   return products;
 };
