@@ -44,6 +44,6 @@ module.exports = class Payment extends Sequelize.Model {
   }
   static associate(db) {
     db.Payment.belongsTo(db.Order);
-    db.User.belongsTo(db.User);
+    db.Payment.belongsTo(db.User);
   }
 };
